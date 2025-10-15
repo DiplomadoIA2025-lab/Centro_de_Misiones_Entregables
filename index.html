@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IA-DU: Centro de Misión de Aprendizaje</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #0a092d;
+            color: #e0e0e0;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0a092d 100%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+        }
+        .tab-button.active {
+            background-color: #3b82f6;
+            color: #ffffff;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .mission-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .mission-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.3), 0 8px 10px -6px rgba(59, 130, 246, 0.3);
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background-color: #3b82f6;
+            border-radius: 2px;
+        }
+        .pro-tip {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid #3b82f6;
+        }
+        .slide-container {
+            min-height: calc(100vh - 80px); /* Adjust based on nav height */
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            padding-top: 2rem;
+            padding-bottom: 100px; /* Space for bottom nav */
+            position: relative;
+        }
+        .active-slide {
+            display: flex; /* Shown when active */
+        }
+        .help-button {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: rgba(59, 130, 246, 0.5);
+            color: white;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s ease-in-out;
+        }
+        .help-button:hover {
+            background-color: #3b82f6;
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+<div x-data="slideDeck()" x-init="init">
+    <!-- Navegación -->
+    <nav class="gradient-bg sticky top-0 z-50 shadow-lg">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-white cursor-pointer" @click="slide = 1">
+                <span class="text-blue-400">IA</span>-DU
+            </div>
+            <div class="hidden md:flex space-x-6 text-lg">
+                <a href="#" @click.prevent="slide = 2" class="hover:text-blue-400 transition-colors">Misiones</a>
+                <a href="#" @click.prevent="slide = 31" class="hover:text-blue-400 transition-colors">Recursos</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido Principal como Diapositivas -->
+    <main class="container mx-auto px-6">
+        <!-- SLIDE 1: Header -->
+        <div class="slide-container">
+            <button @click="openHelp(1)" class="help-button">?</button>
+            <header class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-white leading-tight mb-4">Bienvenido/a al Futuro de tu Profesión</h1>
+                <p class="text-lg md:text-xl text-blue-200 max-w-3xl mx-auto">Has llegado a tu centro de mando. En IA-DU, cada entregable es una misión diseñada para darte superpoderes de IA.</p>
+                <button @click="slide = 2" class="mt-8 px-8 py-3 bg-blue-600 text-white font-bold rounded-full hover:bg-blue-700 transition-transform transform hover:scale-105">¡Comenzar Misiones!</button>
+            </header>
+        </div>
+
+        <!-- SLIDE 2: Menú de Misiones -->
+        <div class="slide-container">
+            <button @click="openHelp(2)" class="help-button">?</button>
+            <section class="w-full text-center">
+                <h2 class="text-3xl md:text-4xl font-bold section-title mx-auto">Centro de Misiones</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
+                    <div @click="slide = 3" class="mission-card glass-card p-6 flex flex-col items-center cursor-pointer"><div class="text-5xl mb-4">🚀</div><h3 class="text-xl font-bold text-white mb-2">Misión 1: Portafolio IA</h3><p class="text-blue-200">El kit de inicio para todo explorador de IA.</p></div>
+                    <div @click="slide = 8" class="mission-card glass-card p-6 flex flex-col items-center cursor-pointer"><div class="text-5xl mb-4">🎧</div><h3 class="text-xl font-bold text-white mb-2">Misión 2: El Sonido del Saber</h3><p class="text-blue-200">Crea audios educativos impactantes.</p></div>
+                    <div @click="slide = 12" class="mission-card glass-card p-6 flex flex-col items-center cursor-pointer"><div class="text-5xl mb-4">🏛️</div><h3 class="text-xl font-bold text-white mb-2">Misión 3: Arquitecto de Proyectos</h3><p class="text-blue-200">Diseña un proyecto educativo completo.</p></div>
+                    <div @click="slide = 16" class="mission-card glass-card p-6 flex flex-col items-center cursor-pointer"><div class="text-5xl mb-4">🛡️</div><h3 class="text-xl font-bold text-white mb-2">Misión 4: El Guardián Ético</h3><p class="text-blue-200">Construye proyectos seguros y éticos.</p></div>
+                    <div @click="slide = 21" class="mission-card glass-card p-6 flex flex-col items-center cursor-pointer"><div class="text-5xl mb-4">🎮</div><h3 class="text-xl font-bold text-white mb-2">Misión 5: El Maestro del Juego</h3><p class="text-blue-200">Gamifica y ludifica tu aula.</p></div>
+                    <div @click="slide = 25" class="mission-card glass-card p-6 flex flex-col items-center md:col-span-2 lg:col-span-1 cursor-pointer"><div class="text-5xl mb-4">🏆</div><h3 class="text-xl font-bold text-white mb-2">Proyecto Final: El Integrador</h3><p class="text-blue-200">Consolida tus poderes y presenta tu obra.</p></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- MISION 1 -->
+        <div class="slide-container"><button @click="openHelp(3)" class="help-button">?</button><section class="glass-card p-8 w-full"><h2 class="text-3xl font-bold mb-2 text-blue-400">🚀 Misión 1: Mi Primer Portafolio IA</h2><p class="text-lg text-blue-200 mb-6">Transforma un tema complejo en una experiencia de aprendizaje inolvidable.</p><div class="pro-tip p-4 rounded-md"><b>Objetivo:</b> Crear un portafolio de evidencias demostrando el uso de 5 herramientas de IA para desarrollar una clase completa, desde la investigación hasta la evaluación.</div></section></div>
+        <div class="slide-container"><button @click="openHelp(4)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Paso 1: Elige tu Desafío</h3><p class="mb-6">Identifica un tema que sea difícil de enseñar o que tus estudiantes/colegas encuentren complejo. Documenta brevemente por qué es un desafío.</p><div x-data="{ tab: 'docentes' }"><div class="flex flex-wrap gap-2 mb-4"><button @click="tab = 'docentes'" :class="{ 'active': tab === 'docentes' }" class="tab-button px-4 py-2 rounded-lg">Docentes</button><button @click="tab = 'otros'" :class="{ 'active': tab === 'otros' }" class="tab-button px-4 py-2 rounded-lg">Otros Perfiles</button></div><div class="p-4 bg-black bg-opacity-20 rounded-lg"><div x-show="tab === 'docentes'"><b>Primaria:</b> El ciclo del agua. <b>Secundaria:</b> Balanceo de ecuaciones químicas. <b>Universidad:</b> Cálculo de integrales.</div><div x-show="tab === 'otros'"><b>Estudiante Uni:</b> Entender la Fisiología del ciclo cardíaco para un examen. <b>Admin:</b> Explicar el nuevo software de gestión de notas. <b>Funcionario:</b> Comunicar la nueva política de teletrabajo.</div></div></div></section></div>
+        <div class="slide-container"><button @click="openHelp(5)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Pasos 2-4: Investiga, Sintetiza y Planifica</h3><ul class="space-y-4"><li><b class="text-blue-300">Paso 2 (Investigación):</b> Reúne 2 recursos clave (PDF, web) sobre tu tema.</li><li><b class="text-blue-300">Paso 3 (Síntesis con NotebookLM):</b> Sube tus fuentes y usa un prompt para extraer ideas clave.<br><i class="text-sm">"Extrae los 5 conceptos clave sobre [Tu Tema]. Crea una analogía simple para el concepto más difícil."</i></li><li><b class="text-blue-300">Paso 4 (Planificación con MagicSchool.ai):</b> Usa la síntesis para generar un plan de clase.<br><i class="text-sm">"Genera un plan de clase de 50 minutos para [Tu Audiencia] sobre [Tu Tema], incluyendo objetivo, gancho y actividad práctica."</i></li></ul></section></div>
+        <div class="slide-container"><button @click="openHelp(6)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Pasos 5-7: Crea Materiales y Evalúa</h3><ul class="space-y-4"><li><b class="text-blue-300">Paso 5 (Presentación con Gamma):</b> Pega tu plan de clase para crear una presentación visual.<br><i class="text-sm">"Crea una presentación de 8 diapositivas con un tono profesional pero accesible, basada en este plan de clase."</i></li><li><b class="text-blue-300">Paso 6 (Materiales con Canva):</b> Diseña 2 recursos (infografía, guía).<br><i class="text-sm">"Crea el texto para una infografía que resuma los 3 pasos más importantes de [Tu Tema]."</i></li><li><b class="text-blue-300">Paso 7 (Evaluación con Quizziz AI):</b> Diseña un quiz interactivo.<br><i class="text-sm">"Crea un quiz de 5 preguntas sobre [Tu Tema] para [Tu Audiencia], con 3 de opción múltiple, 1 V/F y 1 respuesta corta."</i></li></ul></section></div>
+        <div class="slide-container"><button @click="openHelp(7)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Checklist de Entrega (Misión 1)</h3><p>Organiza en una carpeta de Google Drive y comparte el enlace. La carpeta debe contener:</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Introducción:</b> 1 doc Word con la descripción del tema y el desafío.</li><li><b>Proceso:</b> 1 doc Word documentando los prompts usados y resultados de cada herramienta.</li><li><b>Producto Final:</b> El plan de clase, la presentación, los 2 materiales y el enlace al quiz.</li><li><b>Reflexión Final:</b> 1 doc Word con tu análisis de la experiencia.</li></ul></section></div>
+
+        <!-- MISION 2 -->
+        <div class="slide-container"><button @click="openHelp(8)" class="help-button">?</button><section class="glass-card p-8 w-full"><h2 class="text-3xl font-bold mb-2 text-blue-400">🎧 Misión 2: El Sonido del Saber</h2><p class="text-lg text-blue-200 mb-6">Unifica tu trabajo previo y conviértete en un ingeniero de prompts para audios educativos.</p><div class="pro-tip p-4 rounded-md"><b>Objetivo:</b> Complementar tu portafolio con audios generados por IA, demostrando tu habilidad para iterar y mejorar prompts para lograr un resultado pedagógico específico.</div></section></div>
+        <div class="slide-container"><button @click="openHelp(9)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Paso 1: Redacta tu Prompt Maestro</h3><p>Para una herramienta de Texto-a-Voz (Ej. ElevenLabs), escribe un prompt detallado. Incluye:</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Tema y objetivo:</b> ¿De qué trata y qué busca el audio?</li><li><b>Público:</b> Nivel educativo, edad.</li><li><b>Voz:</b> Género, edad, tono (entusiasta, calmado), ritmo (pausado, rápido).</li><li><b>Instrucciones:</b> Pausas, énfasis, velocidad.</li></ul><div class="mt-4 pro-tip p-4 rounded-md"><b class="text-blue-300">Prompt Ejemplo (Docente Primaria):</b><br><i class="text-sm">"Narra este texto sobre el ciclo del agua para niños de 8 años. Usa una voz femenina, amable y entusiasta, con un ritmo lento. Haz una pausa breve después de cada fase del ciclo y enfatiza las palabras 'evaporación', 'condensación' y 'precipitación'."</i></div></section></div>
+        <div class="slide-container"><button @click="openHelp(10)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Paso 2: Itera y Mejora (¡3 Veces!)</h3><p class="mb-4">El verdadero aprendizaje está en la repetición. Sigue este ciclo:</p><ol class="list-decimal list-inside mt-4 space-y-2"><li><b>Genera la Versión 1</b> del audio con tu prompt inicial.</li><li><b>Evalúa:</b> ¿Cumple el objetivo? ¿El tono es correcto? ¿Es claro para tu audiencia?</li><li><b>Ajusta el Prompt:</b> Modifica las instrucciones. Sé más específico. (Ej. "Usa un tono más misterioso al hablar de las nubes").</li><li><b>Genera la Versión 2.</b> Evalúa y ajusta de nuevo para la <b>Versión 3</b>.</li></ol><p class="mt-4"><b>Documenta los cambios</b> que hiciste en cada versión del prompt.</p></section></div>
+        <div class="slide-container"><button @click="openHelp(11)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Checklist de Entrega (Misión 2)</h3><p>Añade a tu carpeta de Google Drive existente:</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Confirmación:</b> Asegúrate que los entregables de imágenes y video de sesiones previas están en la carpeta.</li><li><b>Audios:</b> Guarda el audio final y las versiones intermedias.</li><li><b>Ficha Técnica:</b> Un documento (Word/PPT) que por cada audio contenga: objetivo pedagógico, descripción, justificación de los ajustes en los prompts y sugerencias de uso.</li></ul></section></div>
+
+        <!-- MISION 3 -->
+        <div class="slide-container"><button @click="openHelp(12)" class="help-button">?</button><section class="glass-card p-8 w-full"><h2 class="text-3xl font-bold mb-2 text-blue-400">🏛️ Misión 3: Arquitecto de Proyectos</h2><p class="text-lg text-blue-200 mb-6">Diseña un proyecto educativo completo, contextualizado y ejecutable, potenciado con IA.</p><div class="pro-tip p-4 rounded-md"><b>Objetivo:</b> Integrar herramientas de IA en la planificación, desarrollo de actividades y evaluación de un proyecto educativo adaptado a tu realidad.</div></section></div>
+        <div class="slide-container"><button @click="openHelp(13)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Pasos 1-2: El Reto y los Resultados</h3><p class="mb-4">Define la base de tu proyecto.</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Paso 1 (Reto):</b> Elige un tema, problema o pregunta central para tu contexto. Usa IA para generar ideas.<br><i class="text-sm">"Genera 5 preguntas motivadoras sobre [la deforestación en el Amazonas] para estudiantes de [secundaria]."</i></li><li><b>Paso 2 (Resultados):</b> Establece los aprendizajes esperados y el producto final que los estudiantes crearán. Pide ayuda a la IA.<br><i class="text-sm">"Para un proyecto sobre [la deforestación], sugiere 3 productos finales innovadores que no sean un ensayo (ej. un documental corto, una campaña en redes, un modelo 3D)."</i></li></ul></section></div>
+        <div class="slide-container"><button @click="openHelp(14)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Pasos 3-5: Estructura, Recursos y Rúbrica</h3><p class="mb-4">Construye el esqueleto de tu proyecto.</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Paso 3 (Estructura):</b> Planifica las fases (lanzamiento, investigación, creación, etc.) y diseña actividades donde la IA sea un apoyo.</li><li><b>Paso 4 (Recursos):</b> Pide a la IA que te ayude a crear guías, listas de verificación o ejemplos para los estudiantes. <br><i class="text-sm">"Crea una lista de verificación para un video-documental estudiantil. Incluye puntos sobre guion, calidad de video, audio y fuentes."</i></li><li><b>Paso 5 (Rúbrica):</b> Diseña con la IA una rúbrica clara para evaluar el proceso y el producto.<br><i class="text-sm">"Crea una rúbrica para evaluar un proyecto. Incluye criterios para 'investigación', 'creatividad' y 'uso ético de la IA'."</i></li></ul></section></div>
+        <div class="slide-container"><button @click="openHelp(15)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Checklist de Entrega (Misión 3)</h3><p>Organiza todo en un único documento (Word, PDF o PPT):</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Descripción:</b> El reto o pregunta central.</li><li><b>Resultados:</b> Los aprendizajes y el producto final.</li><li><b>Estructura:</b> Las fases y actividades del proyecto.</li><li><b>Recursos:</b> Los apoyos diseñados.</li><li><b>Evaluación:</b> La rúbrica de evaluación.</li><li><b>Reflexión Final:</b> Tu análisis sobre el proceso y el rol de la IA.</li></ul></section></div>
+
+        <!-- MISION 4 -->
+        <div class="slide-container"><button @click="openHelp(16)" class="help-button">?</button><section class="glass-card p-8 w-full"><h2 class="text-3xl font-bold mb-2 text-blue-400">🛡️ Misión 4: El Guardián Ético</h2><p class="text-lg text-blue-200 mb-6">Diseña un proyecto interdisciplinario, ético y seguro con IA en el aula.</p><div class="pro-tip p-4 rounded-md"><b>Objetivo:</b> Integrar saberes de múltiples asignaturas y garantizar buenas prácticas de seguridad digital y ética, incorporando la IA en la evaluación.</div></section></div>
+        <div class="slide-container"><button @click="openHelp(17)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Pasos 1-2: Conexión y Seguridad</h3><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Paso 1 (Proyecto Interdisciplinario):</b> Elige un tema que pueda abordarse desde al menos dos asignaturas. Pide a la IA que sugiera conexiones.<br><i class="text-sm">"Sugiere un proyecto que conecte 'Historia de Colombia' y 'Estadística' para estudiantes universitarios, enfocado en el análisis del conflicto armado."</i></li><li><b>Paso 2 (Análisis Ético y de Seguridad):</b> Identifica riesgos y define protocolos de protección de datos personales, siguiendo la normativa colombiana.<br><i class="text-sm">"Para un proyecto que usa IA para analizar textos estudiantiles, ¿qué protocolos de anonimización debo seguir según la Ley 1581 de 2012?"</i></li></ul></section></div>
+        <div class="slide-container"><button @click="openHelp(18)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Paso 3: Secuencia Didáctica</h3><p>Planifica actividades integradoras que requieran aplicar conocimientos de varias áreas. Solicita a la IA sugerencias y adaptaciones.</p><div class="mt-4 pro-tip p-4 rounded-md"><b class="text-blue-300">Prompt Ejemplo (Funcionario Público):</b><br><i class="text-sm">"Diseña una actividad de capacitación para funcionarios que combine 'Atención al Ciudadano' y 'Uso de Software CRM'. La actividad debe ser un role-playing donde la IA genere los casos de los ciudadanos y evalúe las respuestas."</i></div></section></div>
+        <div class="slide-container"><button @click="openHelp(19)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Paso 4: Evaluación Inteligente con IA</h3><p>Genera con apoyo de la IA los instrumentos de evaluación. Documenta los prompts y los resultados.</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Evaluación Diagnóstica:</b> Para medir el conocimiento previo.</li><li><b>Rúbrica Analítica:</b> Para evaluar el proyecto final.</li><li><b>Retroalimentación Automatizada:</b> Diseña un sistema donde la IA pueda dar feedback personalizado a los estudiantes sobre borradores.</li></ul></section></div>
+        <div class="slide-container"><button @click="openHelp(20)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Checklist de Entrega (Misión 4)</h3><p>Organiza todo en un único documento (Word, PDF o PPT):</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Descripción del Proyecto:</b> Tema, asignaturas, objetivos.</li><li><b>Análisis Ético:</b> Protocolos de seguridad y consentimiento.</li><li><b>Secuencia Didáctica:</b> Actividades integradas.</li><li><b>Instrumentos de Evaluación:</b> Prompts y resultados de la IA.</li><li><b>Plan de Implementación:</b> Logística y alternativas para inclusión.</li><li><b>Reflexión Crítica Final.</b></li></ul></section></div>
+        
+        <!-- MISION 5 -->
+        <div class="slide-container"><button @click="openHelp(21)" class="help-button">?</button><section class="glass-card p-8 w-full"><h2 class="text-3xl font-bold mb-2 text-blue-400">🎮 Misión 5: El Maestro del Juego</h2><p class="text-lg text-blue-200 mb-6">Transforma una experiencia educativa tradicional en una vivencia lúdica e interactiva.</p><div class="pro-tip p-4 rounded-md"><b>Objetivo:</b> Diseñar y aplicar una actividad gamificada o ludificada que integre herramientas de IA, considerando el contexto real del aula o entorno profesional.</div></section></div>
+        <div class="slide-container"><button @click="openHelp(22)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Paso 1: Planificación Estratégica</h3><p>Define el tema, contexto y objetivo de tu actividad.</p><div class="mt-4 pro-tip p-4 rounded-md"><b class="text-blue-300">Ejemplo de Contextualización (Admin. Educativo):</b><br><i>"<b>Tema:</b> Capacitación en el nuevo portal de admisiones. <b>Contexto:</b> Personal administrativo con diferentes niveles de habilidad tecnológica, en un entorno urbano con buena conectividad. <b>Objetivo:</b> Que el 95% del personal pueda completar un proceso de admisión simulado sin errores después de la actividad."</i></div></section></div>
+        <div class="slide-container"><button @click="openHelp(23)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Pasos 2-3: Diseño con IA y Construcción</h3><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Paso 2 (Diseño con IA):</b> Elige una herramienta de IA para generar preguntas, retos o narrativas.<br><i class="text-sm">"Actúa como un diseñador de juegos. Crea una historia interactiva para una trivia en Kahoot sobre [la historia de nuestra institución]. El jugador es un 'detective del tiempo' que debe resolver 5 acertijos para encontrar el 'tesoro' fundador."</i></li><li><b>Paso 3 (Construcción en Plataforma):</b> Selecciona la plataforma (Kahoot, Quizizz, Genially, Wordwall) y transfiere el contenido generado por la IA, ajustando la configuración.</li></ul></section></div>
+        <div class="slide-container"><button @click="openHelp(24)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Checklist de Entrega (Misión 5)</h3><p>Entrega un documento Word (o PDF) que incluya:</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Descripción:</b> El contexto y objetivo de la actividad.</li><li><b>Evidencia del Diseño:</b> Capturas de pantalla, prompts utilizados, ejemplos de preguntas.</li><li><b>Proyección:</b> ¿Qué esperas alcanzar con la actividad?</li><li><b>Reflexión Final:</b> ¿Cómo la gamificación y la IA pueden transformar el aprendizaje?</li><li><b>Anexos:</b> Enlace a la actividad diseñada (incluso si es un prototipo).</li></ul></section></div>
+
+        <!-- PROYECTO FINAL -->
+        <div class="slide-container"><button @click="openHelp(25)" class="help-button">?</button><section class="glass-card p-8 w-full"><h2 class="text-3xl font-bold mb-2 text-blue-400">🏆 Misión Final: El Proyecto Integrador</h2><p class="text-lg text-blue-200 mb-6">Aplica todos los conocimientos y competencias adquiridas en un gran proyecto final.</p><div class="pro-tip p-4 rounded-md"><b>Objetivo:</b> Evidenciar la aplicación práctica de todo lo aprendido en el diplomado, creando una estrategia educativa interdisciplinaria, innovadora y de alta calidad.</div></section></div>
+        <div class="slide-container"><button @click="openHelp(26)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Visión Global y Auto-evaluación</h3><p class="mb-4">Antes de empezar, reflexiona sobre los objetivos de los tres módulos del diplomado. Tu proyecto debe ser una respuesta integradora a todo lo aprendido.</p><p>Usa la rúbrica de evaluación del proyecto (disponible en materiales) para autoevaluar tu idea. Identifica fortalezas y áreas de mejora desde el principio.</p></section></div>
+        <div class="slide-container"><button @click="openHelp(27)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Entregable 1: El Documento Maestro</h3><p>Crea un documento Word que sea el corazón de tu proyecto. Debe incluir:</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>Descripción de la Estrategia:</b> Mínimo 1 página (objetivos, motivaciones, competencias, público).</li><li><b>Articulación Disciplinar:</b> Explica cómo se conectan al menos dos áreas.</li><li><b>Recursos Creados con IA:</b> Incluye o enlaza los materiales didácticos generados.</li><li><b>Consideraciones Éticas:</b> Explica tus protocolos de privacidad, consentimiento y alternativas de inclusión.</li><li><b>Plan de Evaluación:</b> Describe cómo evaluarás el proyecto (rúbrica, cuestionario, etc.).</li></ul></section></div>
+        <div class="slide-container"><button @click="openHelp(28)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Entregable 2: La Presentación Visual</h3><p>Crea una presentación de 7-10 diapositivas para socializar tu trabajo. Debe ser visual, concisa y atractiva.</p><div class="pro-tip p-4 rounded-md"><b>Herramientas de IA Sugeridas:</b><br>Usa IA para acelerar el diseño de tu presentación. Prueba con <a href="https://www.slidesai.io/es" target="_blank" class="text-blue-300 hover:underline">SlidesAI</a> o <a href="https://gamma.app/es" target="_blank" class="text-blue-300 hover:underline">Gamma.app</a>.</div></section></div>
+        <div class="slide-container"><button @click="openHelp(29)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Entregable 3: La Carpeta Organizada</h3><p>Crea una carpeta en Google Drive llamada "Proyecto Final - [Tu Nombre]". Debe contener:</p><ul class="list-disc list-inside mt-4 space-y-2"><li><b>El Documento Maestro</b> (en Word o PDF).</li><li><b>La Presentación Visual</b> (en PPT o PDF).</li><li><b>Una carpeta de "Anexos":</b> Aquí van todos los recursos que no se pueden incrustar en el documento (videos, enlaces a juegos, audios, etc.).</li></ul><p class="mt-4"><b>¡Importante!</b> Asegúrate de que la carpeta y todos sus contenidos tengan permisos de visualización para que puedan ser evaluados.</p></section></div>
+        <div class="slide-container"><button @click="openHelp(30)" class="help-button">?</button><section class="glass-card p-8 w-full"><h3 class="text-xl font-bold mb-4 section-title">Checklist de Entrega (Misión Final)</h3><p>Antes de entregar, verifica que tu proyecto cumpla con todo:</p><ul class="list-disc list-inside mt-4 space-y-2"><li>¿Integra al menos dos áreas disciplinares con justificación?</li><li>¿Incluye actividades o recursos creados con IA?</li><li>¿El documento descriptivo tiene al menos 1 página?</li><li>¿Explica las consideraciones éticas y de privacidad?</li><li>¿Tiene una presentación visual de 7-10 diapositivas?</li><li>¿La carpeta de Drive está completa, organizada y accesible?</li></ul></section></div>
+
+        <!-- SLIDE 31: RECURSOS -->
+        <div class="slide-container">
+            <button @click="openHelp(31)" class="help-button">?</button>
+            <section class="w-full">
+                <h2 class="text-3xl md:text-4xl font-bold section-title">Caja de Herramientas y Recursos</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                    <div class="glass-card p-6">
+                        <h3 class="text-2xl font-bold text-blue-400 mb-4">🧰 AI ToolBox</h3>
+                        <ul class="space-y-3">
+                            <li><b><a href="https://notebooklm.google.com/" target="_blank" class="text-blue-300 hover:underline">NotebookLM:</a></b> Para síntesis y análisis.</li>
+                            <li><b><a href="https://www.magicschool.ai/" target="_blank" class="text-blue-300 hover:underline">MagicSchool.ai:</a></b> Para planificación docente.</li>
+                            <li><b><a href="https://gamma.app/" target="_blank" class="text-blue-300 hover:underline">Gamma / SlidesAI:</a></b> Para presentaciones.</li>
+                            <li><b><a href="https://elevenlabs.io/" target="_blank" class="text-blue-300 hover:underline">ElevenLabs:</a></b> Para audio.</li>
+                             <li><b><a href="https://www.genial.ly/" target="_blank" class="text-blue-300 hover:underline">Genially / Kahoot:</a></b> Para gamificación.</li>
+                        </ul>
+                    </div>
+                    <div class="glass-card p-6">
+                        <h3 class="text-2xl font-bold text-blue-400 mb-4">✍️ Guía Maestra de Prompting</h3>
+                        <p class="mb-4">La calidad de tu resultado depende de la calidad de tu instrucción. Recuerda siempre incluir:</p>
+                        <div class="text-center font-bold text-lg p-4 bg-gray-900 rounded-lg">
+                            <p>Rol + Contexto + Tarea + Formato = ✨ Magia</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    
+    <!-- Navegación de Diapositivas -->
+    <div class="fixed bottom-0 left-0 right-0 p-4 bg-gray-900 bg-opacity-40 backdrop-blur-sm z-40">
+        <div class="container mx-auto flex justify-between items-center">
+            <button @click="slide = Math.max(1, slide - 1)" :disabled="slide === 1" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Anterior</button>
+            <div class="text-white font-semibold">
+                Diapositiva <span x-text="slide"></span> de <span x-text="totalSlides"></span>
+            </div>
+            <button @click="slide = Math.min(totalSlides, slide + 1)" :disabled="slide === totalSlides" class="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all">Siguiente</button>
+        </div>
+    </div>
+
+    <!-- Modal de Ayuda -->
+    <div x-show="isHelpOpen" @click.away="isHelpOpen = false" x-transition class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+        <div class="glass-card p-8 rounded-2xl max-w-2xl w-full">
+            <h3 class="text-2xl font-bold text-blue-300 mb-4">Guía del Explorador</h3>
+            <div class="text-lg text-blue-100 space-y-3 max-h-[60vh] overflow-y-auto" x-html="currentHelpText"></div>
+            <button @click="isHelpOpen = false" class="mt-6 w-full px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-all">¡Entendido!</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/alpinejs@3.13.10/dist/cdn.min.js" defer></script>
+<script>
+    function slideDeck() {
+        return {
+            slide: 1,
+            totalSlides: 31,
+            isHelpOpen: false,
+            currentHelpText: '',
+            helpContent: {
+                1: `¡Hola! Te doy la bienvenida a <strong>IA-DU</strong>. Piensa en esta página como tu base de operaciones para el diplomado. Aquí no solo encontrarás las tareas, sino una guía interactiva para convertirte en un experto/a en el uso de la Inteligencia Artificial en tu campo. El objetivo es que sientas que tienes un copiloto en este viaje. ¡Vamos a empezar!`,
+                2: `Este es tu mapa, tu centro de misiones. Cada tarjeta que ves es una aventura de aprendizaje, un taller práctico diseñado para darte una nueva habilidad. No tienes que verlos como simples tareas, sino como niveles que vas a superar. Haz clic en cualquiera para ver los detalles de tu próximo desafío.`,
+                3: `Aquí comienza tu viaje. La <strong>Misión 1</strong> es tu 'kit de inicio'. Imagina que te entregan una caja con tus primeras herramientas de superhéroe. El objetivo es que te familiarices con algunas de las IAs más útiles y veas de primera mano cómo pueden transformar un tema que te parece complicado en algo fácil y atractivo. ¡Es tu primera gran victoria!`,
+                4: `Todo gran proyecto empieza con una pregunta. ¿Qué es eso que siempre te ha costado explicar? Si eres profe de primaria, quizás sea el ciclo del agua. Si eres un funcionario, tal vez sea explicar una nueva normativa interna. El primer paso es simple: escoge ese 'dolor de cabeza' y descríbelo. No necesitas un ensayo, solo ser sincero sobre por qué es un reto. Este será el 'villano' que venceremos con la IA.`,
+                5: `¡Manos a la obra! Esta diapositiva es el corazón de la misión. Es como cocinar una receta: <br>1. <strong>Buscas los ingredientes</strong> (los 2 recursos). <br>2. <strong>Usas un robot de cocina (NotebookLM)</strong> para que te pique y mezcle todo, dándote un resumen perfecto. <br>3. Con ese resumen, le pides a un <strong>'chef experto' (MagicSchool)</strong> que te diseñe el plano de la receta, es decir, tu plan de clase. ¡No temas experimentar con los prompts!`,
+                6: `Ahora toca la parte divertida: ¡la presentación! Ya tienes el 'plano' de la receta, ahora vamos a hacer que el plato se vea delicioso. Aquí usarás herramientas que convierten tus ideas en algo visualmente atractivo (presentaciones, infografías) y en una forma de saber si tus 'comensales' (estudiantes/colegas) entendieron la lección (el quiz). Es el momento de ser creativo.`,
+                7: `¡Casi llegas a la meta! Esta es la lista de mercado final. Antes de 'pagar' (entregar), revisa que tienes todo en tu 'carrito' (la carpeta de Drive). Piensa en esto como el índice de tu primer gran libro. Una buena organización no solo te ayuda a ti, sino que demuestra profesionalismo y claridad. Asegúrate de que cada pieza esté en su lugar.`,
+                8: `¡Subimos de nivel! En la Misión 1 creaste contenido visual. Ahora, en la <strong>Misión 2</strong>, vamos a darle voz. El objetivo aquí es aprender a 'dirigir' a la IA para que genere audios con la intención, el tono y el ritmo perfectos para tu audiencia. Es como pasar de ser fotógrafo a ser director de cine sonoro.`,
+                9: `Aquí te conviertes en un 'director de casting' para voces de IA. El 'prompt' es tu guion de dirección. No es lo mismo pedirle a un actor que lea un texto, que pedirle que lo haga 'como un abuelo contándole un cuento a su nieto'. Esa es la diferencia que vas a practicar. Sé específico: ¿quieres una voz entusiasta para motivar a tus colegas o una voz calmada para explicar un tema complejo a estudiantes nerviosos? Tú decides.`,
+                10: `El secreto de los expertos es la práctica y el ajuste. Nadie lo logra a la primera. Tu primer audio será bueno, el segundo mejor y el tercero, excelente. Esta diapositiva te anima a escuchar, criticar tu propio trabajo y refinar tus instrucciones a la IA. Pregúntate: '¿Esto suena como yo quiero? ¿Qué palabra puedo cambiar en mi prompt para que el énfasis sea más fuerte?' Documentar esos cambios es clave para tu aprendizaje.`,
+                11: `¡La organización final de tu producción! Aquí te aseguras de tener todos los 'takes' (versiones de audio) y tus notas de director (la ficha técnica) bien guardados. La ficha técnica es tu 'detrás de cámaras', donde explicas por qué tomaste ciertas decisiones creativas. Esto es fundamental para consolidar lo que has aprendido sobre la ingeniería de prompts de audio.`,
+                12: `¡Felicidades, ya eres un creador de contenido! Ahora, en la <strong>Misión 3</strong>, te convertirás en un 'arquitecto'. Ya no se trata solo de crear una lección, sino de diseñar un proyecto educativo completo, con sus fases, recursos y, muy importante, su propio sistema de evaluación. Es pasar de construir una pared a diseñar toda la casa.`,
+                13: `Todo gran edificio necesita un buen cimiento. Aquí defines el 'problema' que tu proyecto va a resolver (el reto) y cómo se verá el 'edificio' terminado (los resultados). No tengas miedo de pedirle a la IA que sea tu 'socio creativo'. Por ejemplo, si eres un estudiante universitario que debe hacer un proyecto sobre marketing digital, podrías pedirle a la IA: 'sugiere 3 formas de demostrar mi conocimiento que no sean un examen escrito'. Te sorprenderá con las ideas.`,
+                14: `Esta es la fase de 'planos y materiales'. Vas a diseñar el esqueleto de tu proyecto (las fases) y a preparar todos los andamios y herramientas que tus estudiantes o participantes necesitarán (las guías y recursos). Piensa en la IA como tu asistente personal que puede redactar borradores de estas guías, ahorrándote horas de trabajo. Tú solo tienes que supervisar y dar el toque final.`,
+                15: `¡El momento de la verdad! Un proyecto sin una buena forma de evaluación es como construir una casa sin inspección final. Aquí te aseguras de que todo esté bien hecho. La rúbrica es tu herramienta de inspección. Y lo mejor es que no tienes que crearla desde cero. Pídele a la IA que te genere un borrador sólido, y tú solo ajústalo a tus necesidades. Así, la evaluación será justa, clara y coherente con tus objetivos.`,
+                16: `Bienvenido/a a la <strong>Misión 4</strong>, la del 'guardián'. Ya sabes construir proyectos, pero ahora aprenderás a hacerlos fuertes, seguros y conectados con el mundo real. Aquí el reto es doble: combinar dos áreas de conocimiento (como si unieras dos edificios con un puente) y ponerle un 'sistema de seguridad' de última generación (la ética y la protección de datos).`,
+                17: `Aquí es donde te pones creativo y responsable. Primero, piensa en cómo dos temas aparentemente distintos pueden unirse. ¿Historia y tecnología? ¿Biología y arte? Pídele a la IA que te ayude a encontrar ese 'puente' innovador. Luego, ponte el sombrero de 'abogado': ¿qué datos usarán mis participantes? ¿Cómo los protejo? Es crucial pensar en esto desde el inicio, como instalar las alarmas antes de amueblar la casa.`,
+                18: `Esta es la 'guía de actividades' para los habitantes de tus dos 'edificios' conectados. Ya no son tareas de una sola materia, sino actividades que requieren que se muevan por el 'puente' y usen conocimientos de ambos lados. Si eres un administrativo, podrías diseñar una capacitación que combine el uso de un nuevo software (técnico) con habilidades de comunicación (humanístico). ¡La IA puede darte ideas geniales para estas actividades!`,
+                19: `Aquí modernizas tu 'sistema de inspección'. No solo vas a crear una rúbrica, sino que explorarás cómo la IA puede ayudarte a dar retroalimentación más rápida y personalizada. Imagina poder darle a cada estudiante un pequeño informe generado por IA sobre los puntos fuertes y débiles de su borrador. Eso es evaluación inteligente, y es una habilidad muy poderosa.`,
+                20: `El checklist final del 'guardián'. Aquí te aseguras de que tu proyecto no solo sea brillante e innovador, sino también robusto, seguro y justo para todos. Es la revisión final de que el 'puente' es estable, el 'sistema de seguridad' está activo y hay 'rampas de acceso' (alternativas de inclusión) para todos.`,
+                21: `¡Hora de jugar! Pero de jugar en serio. En la <strong>Misión 5</strong>, tu desafío es tomar cualquier tema, por más aburrido que parezca, y convertirlo en un juego, una aventura. Aprenderás las técnicas de 'gamificación' para motivar, enganchar y hacer que el aprendizaje sea memorable. ¡Prepárate para ser un 'Maestro del Juego'!`,
+                22: `Todo buen juego necesita un mapa y unas reglas claras. Aquí es donde defines el 'mundo' de tu juego. ¿Cuál es la historia? ¿Quiénes son los jugadores? ¿Cuál es el tesoro que deben encontrar (el objetivo de aprendizaje)? Contextualizar es clave. Un juego para capacitar a funcionarios en una nueva ley no será igual que un juego para que niños de primaria aprendan las tablas de multiplicar. ¡Define bien tu tablero de juego!`,
+                23: `¡Aquí es donde la magia ocurre! Usarás a la IA como tu 'guionista' y 'diseñador de niveles'. Pídele que cree la historia, los personajes, los acertijos... ¡todo! Por ejemplo: 'Crea 5 retos para un Quizizz sobre seguridad informática, donde cada reto sea un 'ataque de un hacker' que el jugador debe detener'. Luego, tú tomas ese guion y lo construyes en la plataforma de juegos que elijas.`,
+                24: `El 'manual de instrucciones' de tu juego. Aquí documentas todo para que otros puedan entender tu creación. No es solo entregar el juego, es explicar la genialidad que hay detrás: por qué lo diseñaste así, qué esperas que logren los jugadores y, lo más importante, qué aprendiste tú en el proceso. Es la reflexión que te convierte de jugador a verdadero diseñador.`,
+                25: `Has llegado a la batalla final, la <strong>Misión Final</strong>. Este no es un taller más; es la suma de todo tu viaje. Aquí vas a consolidar todos tus nuevos poderes para crear un proyecto integrador que demuestre tu maestría. Es tu obra maestra, el proyecto que podrías presentar con orgullo en tu institución o trabajo.`,
+                26: `Este es el momento de la calma antes de la creación. Tómate un respiro y mira hacia atrás. ¿Recuerdas todo lo que has aprendido? Esta diapositiva te invita a conectar los puntos. Luego, con la rúbrica en mano, sé tu propio juez. Evalúa tu idea de proyecto final antes de empezar. Ser autocrítico ahora te ahorrará mucho trabajo después. Es como el director de orquesta que afina los instrumentos antes del gran concierto.`,
+                27: `Este documento es el 'corazón' de tu proyecto final. Piensa en él como el informe ejecutivo que le presentarías a tu jefe o a un comité académico. Debe ser claro, completo y convincente. Cada sección es una pieza clave del rompecabezas: desde por qué tu idea es importante hasta cómo te asegurarás de que sea ética y justa. ¡Es tu oportunidad de plasmar toda tu visión en papel!`,
+                28: `Si el documento es el 'corazón', la presentación es el 'rostro' de tu proyecto. Tienes una idea genial, ¡ahora tienes que 'venderla'! El objetivo es comunicar tu proyecto de forma rápida, visual y emocionante. Menos texto, más imágenes. Menos detalles, más impacto. Usa las herramientas de IA para que te ayuden con el diseño, así tú te concentras en contar una gran historia.`,
+                29: `La organización es la clave del éxito. Imagina que esta carpeta de Drive es el 'maletín' profesional que llevas a tu presentación. Todo debe estar en su lugar, impecable y fácil de encontrar. El Documento Maestro, la Presentación y una carpeta de Anexos con todas las 'pruebas' de tu trabajo (los recursos que creaste). Una buena organización demuestra que tienes todo bajo control.`,
+                30: `¡La última revisión antes de la victoria! Este es tu checklist final, tu última línea de defensa contra cualquier olvido. Pasa por cada punto con calma. ¿Está todo? ¿Funciona cada enlace? ¿Los permisos de la carpeta son correctos? Tomarte diez minutos para hacer esta revisión te puede ahorrar muchos problemas y garantizar que tu obra maestra se presente sin contratiempos. ¡Ya casi lo tienes!`,
+                31: `Este es tu arsenal, tu 'caja de herramientas' y tu 'libro de hechizos'. En esta diapositiva final, tienes acceso rápido a las herramientas clave que has usado durante todo el diplomado y un recordatorio de la fórmula mágica para hablar con la IA. No dudes en volver aquí siempre que necesites un recurso o un poco de inspiración. ¡Guárdala en tus favoritos!`,
+            },
+            init() {
+                this.$watch('slide', value => {
+                    const slides = document.querySelectorAll('.slide-container');
+                    slides.forEach((el, index) => {
+                        el.classList.toggle('active-slide', index + 1 === value);
+                    });
+                });
+                document.querySelector('.slide-container').classList.add('active-slide');
+            },
+            openHelp(slideNumber) {
+                this.currentHelpText = this.helpContent[slideNumber] || 'No hay ayuda disponible para esta diapositiva.';
+                this.isHelpOpen = true;
+            }
+        }
+    }
+</script>
+</body>
+</html>
+
